@@ -138,7 +138,7 @@ float compare_histograms2(CImg<unsigned char> img1, char * image2) {
   return proche;
 }
 
-
+// commentaire de test
 
 int main() {
 	
