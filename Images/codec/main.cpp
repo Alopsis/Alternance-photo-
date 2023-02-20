@@ -158,13 +158,31 @@ char * recuperation_image_indice_formatage(int i){
 		}		
 	}
 }
-
+/*
+A faire la 
+*/
 void compare_image(CImg<unsigned char> img1, CImg <unsigned char> image2){
-	CImg<int> img1.get_width;
-	int height;
-	for(width=0;width<img1.width;width++){
-		for(height=0;height<img1.height;height++){
-			printf("Hauteur = %d largeur = %d \n",height , width;
+	int width1 = img1.width();
+  	int height1 = img1.height();
+	char r,g,b;
+	int i,j;
+	for(i=0;i<width1;i++){
+		for(i=0;i<height1;i++){
+			/*r = img1(i, j, 0, 0); // Rouge
+     		g = img1(i, j, 0, 1); // Vert
+     		b = img1(i, j, 0, 2); // Bleu		
+			printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, r, g, b);*/
+				   
+		}
+	}
+	width1 = image2.width();
+	height1 = image2.height();
+	for(i=0;i<width1;i++){
+		for(i=0;i<height1;i++){
+ 			 /*r = image2(i, j, 0, 0); // Rouge
+      		 g = image2(i, j, 0, 1); // Vert
+      		 b = image2(i, j, 0, 2); // Bleu	
+	  	    printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, r, g, b);*/
 		}
 	}
 }
@@ -188,7 +206,9 @@ int main() {
 		image_src = recuperation_image_indice_formatage(i);
 		printf("%s \n",image_src);
 		CImg <unsigned char> image1(image_src);
-		compare_image(image2,image1);
+		printf("on analyse une image --> ");
+		//compare_image(image2,image1);
+		printf("image fini 02.jpg %s \n",image_src);
 	}
 	exit(EXIT_SUCCESS);
 }
