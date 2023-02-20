@@ -56,8 +56,6 @@ char ** place_nom_image_tab(){
 	}
 	return images;
 }
-
-
 CImg<unsigned char>  symetriegauche(CImg<unsigned char> image){
 	int i,j;
 	CImg<unsigned char> image_return;
@@ -71,8 +69,6 @@ CImg<unsigned char>  symetriegauche(CImg<unsigned char> image){
 	printf("La taille de votre image est de %d en hauteur et %d en largeur \n",image.width(), image.height());
 	return image_return;
 }
-
-
 int compare(CImg<unsigned char> image,CImg<unsigned char> image2){
 	int i,j;
 	int acc = 0 , valeurpixel = 0;
@@ -93,18 +89,22 @@ Marche pas
 */
 
 float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
-  CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
-  CImg<unsigned char> hist2 = img2.get_histogram(256); // fait l'histogramme de l'img 2
+  	CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
+  	CImg<unsigned char> hist2 = img2.get_histogram(256); // fait l'histogramme de l'img 2
 	float proche;
-	float distance = 0.0;
-  for (int i = 0; i < 256; i++) {  // calcul de la distance euclidienne entre les 2 histo --> SOMME((xB -xA)^2 + (yB - yA)^2)
-    distance += pow(hist1(i) - hist2(i), 2); 
-  }
-  distance = sqrt(distance); // Racine de distance pour la formule de la distance euclidienne 
+	float  distance = 0.0;
+	int i;
+  	for (i = 0; i < 256; i++) {  // calcul de la distance euclidienne entre les 2 histo --> SOMME((xB -xA)^2 + (yB - yA)^2)
+    	distance = distance + pow(hist1(i) - hist2(i), 2); 
+  	}
+	/*
+  	distance = sqrt(distance); // Racine de distance pour la formule de la distance euclidienne 
+	printf("%f\n",distance);
 	proche = distance / sqrt(255 * 255 * 256); // puisque ce sont les bins possibles 
-  printf("L'image est proche a : %f\n",proche);
-  // retourne la distance noramlisé entre 1 et 0 
-  return proche;
+ 	printf("L'image est proche a : %f\n",proche);
+ 	// retourne la distance noramlisé entre 1 et 0 
+	*/
+  	return proche;
 }
 
 /* 
@@ -124,7 +124,7 @@ float compare_histograms2(CImg<unsigned char> img1, char * image2) {
   	}
   	distance = sqrt(distance); // Racine de distance pour la formule de la distance euclidienne 
 	proche = distance / sqrt(255 * 255 * 256); // puisque ce sont les bins possibles 
-  //	printf("L'image est proche a : %f\n",proche); // print de la valeur sur le terminal 
+  	//printf("L'image est proche a : %f\n",proche); // print de la valeur sur le terminal 
   	// retourne la distance des images  ||| valeur entre 0 et 1 
   	return proche;
 }
@@ -133,10 +133,10 @@ char * recuperation_image_indice_formatage(int i){
 	char * image;
 	char * image_source;
 	int nbimage=0;
-    struct dirent* fichierLu = NULL; /* Déclaration d'un pointeur vers la structure dirent. */
-    rep = opendir("./Images"); /* Ouverture d'un dossier */
+    struct dirent* fichierLu = NULL; // Déclaration d'un pointeur vers la structure dirent. 
+    rep = opendir("./Images"); // Ouverture d'un dossier 
 	while ((fichierLu = readdir(rep)) != NULL){
-		if( strcmp(fichierLu->d_name,".")!=0 && strcmp(fichierLu->d_name,"..") != 0 ){
+		if( (strcmp(fichierLu->d_name,".")!=0) && (strcmp(fichierLu->d_name,"..") != 0) ){
 			if(nbimage == i ){
 				strcpy(image_source,"Images/");
 				image = fichierLu->d_name;
@@ -147,42 +147,39 @@ char * recuperation_image_indice_formatage(int i){
 		}		
 	}
 }
-void compare_image(CImg<unsigned char> img1, CImg <unsigned char> image2){
-	
+void compare_image(CImg <unsigned char> image2){
 	int width1 = image2.width();
 	int height1 = image2.height();
 	int i , j , red , green , blue ;
 	for( i = 0 ; i < width1 ; i++ ){
 		for( j = 0 ; j < height1 ; j++ ){
-	  	   //printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, image2(i,j,0,0), image2(i,j,0,1), image2(i,j,0,2));
+	  	    //printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, image2(i,j,0,0), image2(i,j,0,1), image2(i,j,0,2));
 			red = red + image2(i,j,0,0);
 			green = green + image2(i,j,0,1);
 			blue = blue + image2(i,j,0,2);
+			//printf("Pixel vert = %d \n",image2(i,j,0,2));
 		}
 	}
-	red = red / (widht1*height1);
-	green= green / (widht1*height1);
-	blue = blue / (widht1*height1);
-	printf("Pixel rgb moyen de l'image : (R: %d, G:%d ,  B: %d )\n",red,green,blue);
-	
+	red = red / ( width1 * height1 );
+	green = green / ( width1 * height1 );
+	blue = blue / ( width1 * height1 );
+	//printf("Pixel rgb moyen de l'image : (R: %d, G: %d ,  B: %d )\n",red,green,blue);
+	printf("test\n");
 }
 int main() {
 	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
 	CImg<unsigned char> image2("Images/02.jpg");
-	char ** liste_image;
-	int i;
-	int nombre_image;
+	int i , nombre_image;
 	char * image_src;
-	liste_image = place_nom_image_tab();
 	nombre_image = calcul_nombre_image();
-	printf("test\n");
+	printf("test ( si pas de printf ici y'a un seg fault ) \n");
 	for(i=0;i<nombre_image;i++){
 		image_src = recuperation_image_indice_formatage(i);
-		printf("%s \n",image_src);
+		printf("%s\n",image_src);
 		CImg <unsigned char> image1(image_src);
-		printf("on analyse une image --> \n");
-		compare_image(image2,image1);
-		printf("image fini  %s \n",image_src);
+		printf("%s \n",image_src);
+		compare_image(image1);
+		printf("ensuite");
 	}
-	exit(EXIT_SUCCESS);
+	exit(0);
 }
