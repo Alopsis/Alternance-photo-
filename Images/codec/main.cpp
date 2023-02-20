@@ -99,6 +99,9 @@ int compare(CImg<unsigned char> image,CImg<unsigned char> image2){
 	return 1;
 }
 
+/* 
+Marche pas 
+*/
 
 float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
   CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
@@ -115,6 +118,9 @@ float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
   return proche;
 }
 
+/* 
+Marche pas 
+*/
 
 float compare_histograms2(CImg<unsigned char> img1, char * image2) {
   	CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
@@ -133,6 +139,35 @@ float compare_histograms2(CImg<unsigned char> img1, char * image2) {
   	// retourne la distance des images  ||| valeur entre 0 et 1 
   	return proche;
 }
+char * recuperation_image_indice_formatage(int i){
+	DIR* rep = NULL;
+	char * image;
+	char * image_source;
+	int nbimage=0;
+    struct dirent* fichierLu = NULL; /* Déclaration d'un pointeur vers la structure dirent. */
+    rep = opendir("./Images"); /* Ouverture d'un dossier */
+	while ((fichierLu = readdir(rep)) != NULL){
+		if( strcmp(fichierLu->d_name,".")!=0 && strcmp(fichierLu->d_name,"..") != 0 ){
+			if(nbimage == i ){
+				strcpy(image_source,"Images/");
+				image = fichierLu->d_name;
+				strcat(image_source,image);
+				return image_source;
+			}
+			nbimage++;
+		}		
+	}
+}
+
+void compare_image(CImg<unsigned char> img1, CImg <unsigned char> image2){
+	CImg<int> img1.get_width;
+	int height;
+	for(width=0;width<img1.width;width++){
+		for(height=0;height<img1.height;height++){
+			printf("Hauteur = %d largeur = %d \n",height , width;
+		}
+	}
+}
 int main() {
 	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
 	CImg<unsigned char> image2("Images/02.jpg");
@@ -145,23 +180,15 @@ int main() {
 	char * liste_imagee;
 	int i;
 	int nombre_image;
-	char image_src[200];
+	char * image_src;
 	liste_image = place_nom_image_tab();
 	nombre_image = calcul_nombre_image();
+	printf("test\n");
 	for(i=0;i<nombre_image;i++){
-		printf("%s\n",liste_image[i]);
+		image_src = recuperation_image_indice_formatage(i);
+		printf("%s \n",image_src);
+		CImg <unsigned char> image1(image_src);
+		compare_image(image2,image1);
 	}
-	for(i=0;i<nombre_image ; i++ ){
-		strcpy(image_src,"Images/");
-		strcat(image_src,liste_image[i]);
-		printf("Nous allons voir \"%s\" \n",image_src);
-	}
-	for(i=0;i<nombre_image;i++){
-		printf("%s\n",liste_image[i]);
-	}
-	for(i=0;i<nombre_image;i++){
-		compare_histograms2(image2,liste_image[i]);
-	}
-	
 	exit(EXIT_SUCCESS);
 }
