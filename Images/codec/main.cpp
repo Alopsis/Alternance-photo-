@@ -1,28 +1,16 @@
-#include<stdio.h>
-#include <math.h>
-#include <dirent.h>
-#include <string.h>
-#include "CImg.h"
-using namespace cimg_library;
-
-int  halogramme_réactif(){// exemple lib CImg.h 
-	  CImg<unsigned char> image("Images/02.jpg"), visu(500,400,1,3,0);
-  	const unsigned char red[] = { 255,0,0 }, green[] = { 0,255,0 }, blue[] = { 0,0,255 };
-  	image.blur(2.5);
-  	CImgDisplay main_disp(image,"Click a point"), draw_disp(visu,"Intensity profile");
-  	while (!main_disp.is_closed() && !draw_disp.is_closed()) {
-    	main_disp.wait();
-    	if (main_disp.button() && main_disp.mouse_y()>=0) {
-     		const int y = main_disp.mouse_y();
-      		visu.fill(0).draw_graph(image.get_crop(0,y,0,0,image.width()-1,y,0,0),red,1,1,0,255,0);
-      		visu.draw_graph(image.get_crop(0,y,0,1,image.width()-1,y,0,1),green,1,1,0,255,0);
-      		visu.draw_graph(image.get_crop(0,y,0,2,image.width()-1,y,0,2),blue,1,1,0,255,0).display(draw_disp);
-    	}
-	}
-  return 0;
-}
-
-
+#include<stdio.h> // Librairie In Out standard 
+#include <math.h> // Librairie permettant les opérations de mathématiques anciennes 
+#include <dirent.h> // Librairie permettant la manipulation des fichiers / repertoires 
+#include <string.h> // Librairie permettant la manipulation des strings :)
+#include "CImg.h" // Librairie recommandée par J.Romuald afin de manipuler les images 
+using namespace cimg_library; // ?? mais obligatoire 
+/**
+ * @file        main.cpp
+ * @brief       Contient la fonction main ainsi que toutes les autres fonction
+ * @author      Sinclair MOULAGER <sinclair.moulager@etu.univ-st-etienne.fr>
+ * @version     1
+ * @date        2022
+*/
 int calcul_nombre_image(){
 	DIR* rep = NULL;
 	char ** images;
@@ -31,7 +19,8 @@ int calcul_nombre_image(){
     rep = opendir("./Images"); /* Ouverture d'un dossier */
     if (rep == NULL){ /* Si le dossier n'a pas pu être ouvert */
 		fprintf(stderr,"Erreur lors de l'ouverture du dossier\n");
-	}else{
+	}
+	else{
 		printf("Le dossier a ete ouvert avec succes\n");
 	}
 	while ((fichierLu = readdir(rep)) != NULL){
@@ -158,44 +147,29 @@ char * recuperation_image_indice_formatage(int i){
 		}		
 	}
 }
-/*
-A faire la 
-*/
 void compare_image(CImg<unsigned char> img1, CImg <unsigned char> image2){
-	int width1 = img1.width();
-  	int height1 = img1.height();
-	char r,g,b;
-	int i,j;
-	for(i=0;i<width1;i++){
-		for(i=0;i<height1;i++){
-			/*r = img1(i, j, 0, 0); // Rouge
-     		g = img1(i, j, 0, 1); // Vert
-     		b = img1(i, j, 0, 2); // Bleu		
-			printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, r, g, b);*/
-				   
+	
+	int width1 = image2.width();
+	int height1 = image2.height();
+	int i , j , red , green , blue ;
+	for( i = 0 ; i < width1 ; i++ ){
+		for( j = 0 ; j < height1 ; j++ ){
+	  	   //printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, image2(i,j,0,0), image2(i,j,0,1), image2(i,j,0,2));
+			red = red + image2(i,j,0,0);
+			green = green + image2(i,j,0,1);
+			blue = blue + image2(i,j,0,2);
 		}
 	}
-	width1 = image2.width();
-	height1 = image2.height();
-	for(i=0;i<width1;i++){
-		for(i=0;i<height1;i++){
- 			 /*r = image2(i, j, 0, 0); // Rouge
-      		 g = image2(i, j, 0, 1); // Vert
-      		 b = image2(i, j, 0, 2); // Bleu	
-	  	    printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, r, g, b);*/
-		}
-	}
+	red = red / (widht1*height1);
+	green= green / (widht1*height1);
+	blue = blue / (widht1*height1);
+	printf("Pixel rgb moyen de l'image : (R: %d, G:%d ,  B: %d )\n",red,green,blue);
+	
 }
 int main() {
 	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
 	CImg<unsigned char> image2("Images/02.jpg");
-	char test[200] = "Images/03.jpg";
-	CImg<unsigned char> imagetest(test);
-	CImg <unsigned char>* imageatest;
 	char ** liste_image;
-	char * liste_lien_image[400];
-	char  transitoire[50];
-	char * liste_imagee;
 	int i;
 	int nombre_image;
 	char * image_src;
@@ -206,9 +180,9 @@ int main() {
 		image_src = recuperation_image_indice_formatage(i);
 		printf("%s \n",image_src);
 		CImg <unsigned char> image1(image_src);
-		printf("on analyse une image --> ");
-		//compare_image(image2,image1);
-		printf("image fini 02.jpg %s \n",image_src);
+		printf("on analyse une image --> \n");
+		compare_image(image2,image1);
+		printf("image fini  %s \n",image_src);
 	}
 	exit(EXIT_SUCCESS);
 }
