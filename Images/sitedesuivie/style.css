@@ -1,0 +1,19 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+th , td , table  {
+    border: solid 1px black;
+    padding: 10px 7px 10px 7px;
+}
+/* idée de couleurs prise sur le site internet 99designs */
+
+.corp:nth-child(n){
+    background-color: #fff1e1;
+}
+.entete {
+    background-color: #000000;
+    color: #f3ca20;
+}
+.corp:nth-child(2n)  {
+    background-color: #f3ca20;
+}
