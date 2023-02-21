@@ -103,8 +103,9 @@ float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
 	proche = distance / sqrt(255 * 255 * 256); // puisque ce sont les bins possibles 
  	printf("L'image est proche a : %f\n",proche);
  	// retourne la distance noramlisé entre 1 et 0 
-	*/
+	
   	return proche;
+	*/
 }
 
 /* 
@@ -146,13 +147,16 @@ char * recuperation_image_indice_formatage(int i){
 			nbimage++;
 		}		
 	}
-}
+} 
 void compare_image(CImg <unsigned char> image2){
 	int width1 = image2.width();
 	int height1 = image2.height();
-	int i , j , red , green , blue ;
-	for( i = 0 ; i < width1 ; i++ ){
-		for( j = 0 ; j < height1 ; j++ ){
+	int i , j ;
+	int red = 0;
+	int  green = 0;
+	int  blue = 0;
+	for( i = 0 ; i < height1 ; i++ ){
+		for( j = 0 ; j < width1 ; j++ ){
 	  	    //printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, image2(i,j,0,0), image2(i,j,0,1), image2(i,j,0,2));
 			red = red + image2(i,j,0,0);
 			green = green + image2(i,j,0,1);
@@ -163,23 +167,22 @@ void compare_image(CImg <unsigned char> image2){
 	red = red / ( width1 * height1 );
 	green = green / ( width1 * height1 );
 	blue = blue / ( width1 * height1 );
-	//printf("Pixel rgb moyen de l'image : (R: %d, G: %d ,  B: %d )\n",red,green,blue);
-	printf("test\n");
+	printf("Pixel rgb moyen de l'image : (R: %d, G: %d ,  B: %d )\n",red,green,blue);
+	return ;
 }
-int main() {
-	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
-	CImg<unsigned char> image2("Images/02.jpg");
-	int i , nombre_image;
-	char * image_src;
-	nombre_image = calcul_nombre_image();
-	printf("test ( si pas de printf ici y'a un seg fault ) \n");
-	for(i=0;i<nombre_image;i++){
-		image_src = recuperation_image_indice_formatage(i);
-		printf("%s\n",image_src);
-		CImg <unsigned char> image1(image_src);
-		printf("%s \n",image_src);
-		compare_image(image1);
-		printf("ensuite");
+
+	int main() {
+		CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
+		CImg<unsigned char> image2("Images/02.jpg");
+		int i , nombre_image;
+		char * image_src;
+		nombre_image = calcul_nombre_image();
+		printf("test ( si pas de printf ici y'a un seg fault ) \n");
+		for(i=0;i<nombre_image;i++){
+			image_src = recuperation_image_indice_formatage(i);
+			printf("%s\n",image_src);
+			CImg <unsigned char> image1(image_src);
+			compare_image(image1);
+		}
+		exit(0);
 	}
-	exit(0);
-}
