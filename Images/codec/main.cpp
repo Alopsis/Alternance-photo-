@@ -23,6 +23,7 @@ int calcul_nombre_image(){
 	else{
 		printf("Le dossier a ete ouvert avec succes\n");
 	}
+	
 	while ((fichierLu = readdir(rep)) != NULL){
 		if( strcmp(fichierLu->d_name,".")!=0 && strcmp(fichierLu->d_name,"..") != 0 ){
 			images[nbimage] = fichierLu->d_name;
@@ -91,7 +92,7 @@ Marche pas
 float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
   	CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
   	CImg<unsigned char> hist2 = img2.get_histogram(256); // fait l'histogramme de l'img 2
-	float proche;
+	//float proche;
 	float  distance = 0.0;
 	int i;
   	for (i = 0; i < 256; i++) {  // calcul de la distance euclidienne entre les 2 histo --> SOMME((xB -xA)^2 + (yB - yA)^2)
@@ -106,6 +107,7 @@ float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2) {
 	
   	return proche;
 	*/
+	return 0.0;
 }
 
 /* 
@@ -131,7 +133,7 @@ float compare_histograms2(CImg<unsigned char> img1, char * image2) {
 }
 char * recuperation_image_indice_formatage(int i){
 	DIR* rep = NULL;
-	char * image;
+	char * image = ( char * ) malloc(sizeof(char) * 256);
 	char * image_source = (char*) malloc(sizeof(char) * 256);
 	int nbimage=0;
     struct dirent* fichierLu = NULL; // Déclaration d'un pointeur vers la structure dirent. 
@@ -139,7 +141,7 @@ char * recuperation_image_indice_formatage(int i){
 	while ((fichierLu = readdir(rep)) != NULL){
 		if( (strcmp(fichierLu->d_name,".")!=0) && (strcmp(fichierLu->d_name,"..") != 0) ){
 			if(nbimage == i ){
-				strcpy(image_source,"Images/");
+				strcpy(image_source,"./Images/");
 				image = fichierLu->d_name;
 				strcat(image_source,image);
 				return image_source;
@@ -170,21 +172,23 @@ void compare_image(CImg <unsigned char> image2){
 	red = red / ( width1 * height1 );
 	green = green / ( width1 * height1 );
 	blue = blue / ( width1 * height1 );
-	printf("Pixel rgb moyen de l'image : (R: %d, G: %d ,  B: %d )\n",red,green,blue);
-	return ;
+	printf("Pixel rgb moyen de l'image : (R: %d, G: %d , B: %d )\n",red,green,blue);
+	
 }
 int main() {
-	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
-	CImg<unsigned char> image2("Images/02.jpg");
+	CImg<unsigned char> ("Images/04.jpg"); // On lit l'image fournit en parametre
+		
 	int i , nombre_image;
-	char * image_src;
+	//char * image_src;
 	nombre_image = calcul_nombre_image();
-	printf("test ( si pas de printf ici y'a un seg fault ) \n");
-	for(i=0;i<nombre_image;i++){
-		image_src = recuperation_image_indice_formatage(i);
+	//printf("test ( si pas de printf ici y'a un seg fault ) \n");
+	
+for(i=0;i<nombre_image;i++){
+		char * image_src = recuperation_image_indice_formatage(i);
 		printf("%s\n",image_src);
 		CImg <unsigned char> image1(image_src);
 		compare_image(image1);
+		free(image_src);
 	}
 	exit(0);
 }
