@@ -132,7 +132,7 @@ float compare_histograms2(CImg<unsigned char> img1, char * image2) {
 char * recuperation_image_indice_formatage(int i){
 	DIR* rep = NULL;
 	char * image;
-	char * image_source;
+	char * image_source = (char*) malloc(sizeof(char) * 256);
 	int nbimage=0;
     struct dirent* fichierLu = NULL; // Déclaration d'un pointeur vers la structure dirent. 
     rep = opendir("./Images"); // Ouverture d'un dossier 
@@ -147,6 +147,9 @@ char * recuperation_image_indice_formatage(int i){
 			nbimage++;
 		}		
 	}
+	closedir(rep); // Fermeture du dossier
+    free(image_source); // Libération de la mémoire allouée pour image_source si y'a une erreur 
+    return NULL;
 } 
 void compare_image(CImg <unsigned char> image2){
 	int width1 = image2.width();
@@ -158,9 +161,9 @@ void compare_image(CImg <unsigned char> image2){
 	for( i = 0 ; i < height1 ; i++ ){
 		for( j = 0 ; j < width1 ; j++ ){
 	  	    //printf("Pixel (%d,%d) - Rouge: %d, Vert: %d, Bleu: %d\n", i, j, image2(i,j,0,0), image2(i,j,0,1), image2(i,j,0,2));
-			red = red + image2(i,j,0,0);
-			green = green + image2(i,j,0,1);
-			blue = blue + image2(i,j,0,2);
+			red = red + image2(j,i,0,0);
+			green = green + image2(j,i,0,1);
+			blue = blue + image2(j,i,0,2);
 			//printf("Pixel vert = %d \n",image2(i,j,0,2));
 		}
 	}
@@ -170,19 +173,18 @@ void compare_image(CImg <unsigned char> image2){
 	printf("Pixel rgb moyen de l'image : (R: %d, G: %d ,  B: %d )\n",red,green,blue);
 	return ;
 }
-
-	int main() {
-		CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
-		CImg<unsigned char> image2("Images/02.jpg");
-		int i , nombre_image;
-		char * image_src;
-		nombre_image = calcul_nombre_image();
-		printf("test ( si pas de printf ici y'a un seg fault ) \n");
-		for(i=0;i<nombre_image;i++){
-			image_src = recuperation_image_indice_formatage(i);
-			printf("%s\n",image_src);
-			CImg <unsigned char> image1(image_src);
-			compare_image(image1);
-		}
-		exit(0);
+int main() {
+	CImg<unsigned char> image("Images/01.jpg"); // On lit l'image fournit en parametre
+	CImg<unsigned char> image2("Images/02.jpg");
+	int i , nombre_image;
+	char * image_src;
+	nombre_image = calcul_nombre_image();
+	printf("test ( si pas de printf ici y'a un seg fault ) \n");
+	for(i=0;i<nombre_image;i++){
+		image_src = recuperation_image_indice_formatage(i);
+		printf("%s\n",image_src);
+		CImg <unsigned char> image1(image_src);
+		compare_image(image1);
 	}
+	exit(0);
+}
