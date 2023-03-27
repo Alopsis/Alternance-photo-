@@ -6,7 +6,7 @@
 #include "couleurs.h"
 #include "divers.h" 
 #include "histo.h"
-
+/* commentaire */
 #define MAX 1000
 using namespace cimg_library; // ?? mais obligatoire
 /**
