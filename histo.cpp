@@ -29,8 +29,6 @@ float compare_histograms(char * image1, char * image2)
 }
 
 
-
-
 float compare_histograms2(CImg<unsigned char> img1, char *image2)
 {
 	CImg<unsigned char> hist1 = img1.get_histogram(256); // fait l'histogramme de l'img 1
@@ -82,10 +80,11 @@ void creation_histogramme_image(char * image_reference){
 	}
 	printf("Fin de traitement \n");
 	trier_histogramme(hist);
+	printf("L'image la plus proche histogrammement parlant est l'image %s \n",hist[0].nom);
 }
 
 
 void trier_histogramme(histo hist[1000]){
-	hist[0].valeur=0.2345;
+	/* Ici faire le tri ! */
 
 }
