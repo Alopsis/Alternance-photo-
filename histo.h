@@ -15,7 +15,14 @@ using namespace cimg_library; // ?? mais obligatoire
  * @date        2022
  */
 
+typedef struct {
+    char * nom ;
+    float valeur;
+}histo;
 
 
-float compare_histograms(CImg<unsigned char> img1, CImg<unsigned char> img2);
+
+float compare_histograms(char * image1, char * image2);
 float compare_histograms2(CImg<unsigned char> img1, char *image2);
+void creation_histogramme_image(char * image_reference);
+void trier_histogramme(histo  hist[1000]);

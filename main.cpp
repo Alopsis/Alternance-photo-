@@ -63,7 +63,7 @@ int main(int argc , char * argv[])
 		compare_image_plus_proche(argv[1]);
 	}
 	else if( choix == 2 ){
-
+		creation_histogramme_image(argv[1]);
 	}
 	else if ( choix == 3 ){
 

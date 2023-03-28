@@ -2,7 +2,6 @@
 #include "histo.h"
 #include "couleurs.h"
 
-/* Commentaire */
 int calcul_nombre_image()
 {
 	DIR *rep = NULL;
