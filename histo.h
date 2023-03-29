@@ -7,13 +7,6 @@
 
 #define MAX 1000
 using namespace cimg_library; // ?? mais obligatoire
-/**
- * @file        main.cpp
- * @brief       Contient la fonction main ainsi que toutes les autres fonction
- * @author      Sinclair MOULAGER <sinclair.moulager@etu.univ-st-etienne.fr>
- * @version     1
- * @date        2022
- */
 
 typedef struct {
     char * nom ;
