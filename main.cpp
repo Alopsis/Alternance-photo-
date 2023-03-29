@@ -6,6 +6,7 @@
 #include "couleurs.h"
 #include "divers.h" 
 #include "histo.h"
+#include "forme.h" 
 /* commentaire */
 #define MAX 1000
 using namespace cimg_library; // ?? mais obligatoire
@@ -66,6 +67,7 @@ int main(int argc , char * argv[])
 		creation_histogramme_image(argv[1]);
 	}
 	else if ( choix == 3 ){
+		verification_image_fichier_forme(nom_toutes_les_images,nombre_image);
 
 	}else {
 		printf("Votre demande est Incorrect \n");

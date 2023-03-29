@@ -230,13 +230,14 @@ void tri_image(char nom_images[][100],int * r , int * g , int * b ,int actuelle 
 
 	
 	for(i=0;i<nb_image;i++){
-		printf("%s %d %d %d \n",nom_images[i],r[i],g[i],b[i]);
 		if(i != actuelle ){
+			
 			if(abs(r[i] - r[actuelle] ) + abs(g[i] - g[actuelle]) + abs(b[i] - b[actuelle]) < plus_gros_div){
+				plus_gros_div =abs(r[i] - r[actuelle] ) + abs(g[i] - g[actuelle]) + abs(b[i] - b[actuelle]) ;
 				img_plus_proche = i;
 			}
 		}
 	}
-	printf("l'image la plus proche pixelement parlant est la %s ( N°%d ) \n",nom_images[img_plus_proche],img_plus_proche);
+	printf("l'image la plus proche pixelement parlant est la %s ( N°%d ) \n",nom_images[img_plus_proche],img_plus_proche+1);
 	return ;
 }
